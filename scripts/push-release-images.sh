@@ -15,14 +15,14 @@ source "${SCRIPT_DIR}/common.sh"
 
 visit "${REPO_DIR}"
   visit modules
-    for TASK_NAME in *; do
+    for TASK_NAME in create-vm execute-in-vm; do
         if echo "${TASK_NAME}" | grep -vqE "^(${EXCLUDED_NON_IMAGE_MODULES})$"; then
             if [ ! -d  "${TASK_NAME}" ]; then
                 continue
             fi
             visit "${TASK_NAME}"
                 IMAGE_NAME_AND_TAG="tekton-task-${TASK_NAME}:${RELEASE_VERSION}"
-                export IMAGE="${REGISTRY}/${REPOSITORY}/${IMAGE_NAME_AND_TAG}"
+                export IMAGE="${REGISTRY}/rgolangh/${IMAGE_NAME_AND_TAG}"
 
                 echo "Pushing ${IMAGE}"
                 
