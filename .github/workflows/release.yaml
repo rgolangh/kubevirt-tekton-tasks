@@ -15,16 +15,11 @@ jobs:
         with:
           go-version: 1.19
 
-      - name: Get release
-        id: get_release
-        uses: bruceadams/get-release@v1.2.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish tekton images and generate release manifests
         run: |
           echo ${{ secrets.QUAY_PASSWORD }} | podman login -u="${{ secrets.QUAY_BOT }}" --password-stdin quay.io
-          export RELEASE_VERSION="${{ steps.get_release.outputs.tag_name }}"
+          export RELEASE_VERSION="v0.0.1"
           make release
 
   
