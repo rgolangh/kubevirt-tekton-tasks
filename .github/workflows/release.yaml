@@ -23,3 +23,12 @@ jobs:
           make release
 
   
+      - name: Publish ARM tekton images and generate release manifests
+        uses: uraimo/run-on-arch-action@v2
+        with:
+          arch: aarch64
+          distro: fedora_latest
+          run: |
+            echo ${{ secrets.QUAY_PASSWORD }} | podman login -u="${{ secrets.QUAY_BOT }}" --password-stdin quay.io
+            export RELEASE_VERSION="v0.0.1"
+            make release
