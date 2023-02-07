@@ -16,7 +16,7 @@ source "${SCRIPT_DIR}/common.sh"
 
 visit "${REPO_DIR}"
   visit modules
-    for TASK_NAME in create-vm execute-in-vm; do
+    for TASK_NAME in wait-for-vmi-status; do
       if echo "${TASK_NAME}" | grep -vqE "^(${EXCLUDED_NON_IMAGE_MODULES})$"; then
         if [ ! -d  "${TASK_NAME}" ]; then
           continue
