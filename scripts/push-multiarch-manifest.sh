@@ -13,6 +13,7 @@ REPO_DIR="$(realpath "${SCRIPT_DIR}/..")"
 source "${SCRIPT_DIR}/release-var.sh"
 source "${SCRIPT_DIR}/common.sh"
 
+
 visit "${REPO_DIR}"
   visit modules
     for TASK_NAME in create-vm execute-in-vm; do
@@ -23,10 +24,12 @@ visit "${REPO_DIR}"
             visit "${TASK_NAME}"
                 IMAGE_NAME_AND_TAG="tekton-task-${TASK_NAME}:${RELEASE_VERSION}"
                 export IMAGE="${REGISTRY}/rgolangh/${IMAGE_NAME_AND_TAG}"
-
-                echo "Pushing ${IMAGE}"
-                
-                podman push "${IMAGE}"
+ 
+                podman manifest create "${IMAGE}"
+                for $ARCH in x86_64 aarch64; do
+                    podman manifest add "${IMAGE}" "${IMAGE}.${ARCH}"
+                done
+                echo "Pushing manifest ${IMAGE}"
                 podman manifest push --all "${IMAGE}" "${IMAGE}"
             leave
         fi

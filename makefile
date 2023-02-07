@@ -53,6 +53,9 @@ build-release-images:
 push-release-images:
 	./scripts/push-release-images.sh
 
+push-multiarch-manifest:
+	./scripts/push-multiarch-manifest.sh
+
 release: generate-yaml-tasks build-release-images push-release-images
 
 vendor:
@@ -73,6 +76,9 @@ vendor:
 	cluster-test \
 	cluster-clean \
 	cluster-clean-and-skip-images \
+	build-release-images \
+	push-release-images \
+	push-multiarch-manifest \
 	release \
 	e2e-tests \
 	onboard-new-task-with-ci-stub \
